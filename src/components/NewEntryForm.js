@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ButtonAction from './ButtonAction';
-import {Form} from 'semantic-ui-react';
+import {Checkbox, Form, Segment} from 'semantic-ui-react';
 
-function NewEntryForm(props) {
+function NewEntryForm({addEntry}) {
+    const [description, setDescription] = useState('');
+    const [value, setValue] = useState('');
+    const [isExpense, setIsExpense] = useState(true);
     return  (
         <Form unstackable>
         <Form.Group>
@@ -10,15 +13,26 @@ function NewEntryForm(props) {
             icon="tags"
             label="Description"
             width={12}
-            placeholder="Test placeholder"/>
+            placeholder="Test placeholder"
+            value={description}
+            onChange={(event)=> setDescription(event.target.value)}
+            />
             <Form.Input
             icon="dollar"
             iconPosition="left"
             label="Value"
             width={4}
-            placeholder="100.00"/>
+            placeholder="100.00"
+            value={value}
+            onChange={(event)=> setValue(event.target.value)}
+            />
         </Form.Group>
-        <ButtonAction></ButtonAction>
+        <Segment compact>
+            <Checkbox toggle label="is Expense" 
+                checked={isExpense}
+                onChange={() => setIsExpense((oldState) => !oldState)} ></Checkbox>
+        </Segment>    
+        <ButtonAction addEntry={addEntry} description={description} value={value} isExpense={isExpense} ></ButtonAction>
       </Form>
   );
 }

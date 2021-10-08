@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import {Segment, Grid, Icon} from 'semantic-ui-react';
+import ModalEdit from './ModalEdit';
 
-function EntryLine(props) {
+function EntryLine({entry, deleteEntry}) {
+    const [isOpen, setIsOpen] = useState(false);
     return  (
-        <Segment color={props.isExpense ? 'red' : 'green'}>
-            <Grid columns={3} divided textAlign="right" >
-            <Grid.Row>
-                <Grid.Column width={10} textAlign="left">{props.desc}</Grid.Column>
-                <Grid.Column width={3}>${props.value}</Grid.Column>
-                <Grid.Column width={3}>
-                <Icon name="edit" bordered/>
-                <Icon name="trash" bordered/>
-                </Grid.Column>
-            </Grid.Row>
-            </Grid>
-        </Segment>   
+        <Fragment>
+            <Segment color={entry.isExpense ? 'red' : 'green'}>
+                <Grid columns={3} divided textAlign="right" >
+                <Grid.Row>
+                    <Grid.Column width={10} textAlign="left">{entry.description}</Grid.Column>
+                    <Grid.Column width={3}>${entry.value}</Grid.Column>
+                    <Grid.Column width={3}>
+                    <Icon name="edit" bordered onClick={() => setIsOpen(true)}  />
+                    <Icon name="trash" bordered onClick={() => deleteEntry(entry.id)} />
+                    </Grid.Column>
+                </Grid.Row>
+                </Grid>
+            </Segment>
+            <ModalEdit isOpen={isOpen} setIsOpen={setIsOpen} />
+        </Fragment>   
   );
 }
 
